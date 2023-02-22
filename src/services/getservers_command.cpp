@@ -48,7 +48,7 @@ void getservers_command::handle_command(const network::address& target, const st
 	const auto game_type = resolve_game_type(game);
 	if (game_type == game_type::unknown)
 	{
-		throw execution_exception{ "Invalid game type: " + game };
+		throw execution_exception("Invalid game type: " + game);
 	}
 
 	std::queue<prepared_server> prepared_servers{};
@@ -64,7 +64,6 @@ void getservers_command::handle_command(const network::address& target, const st
 			});
 
 	size_t packet_count = 0;
-
 	std::string response{};
 
 	while (!prepared_servers.empty())
@@ -77,11 +76,15 @@ void getservers_command::handle_command(const network::address& target, const st
 
 		if (response.size() >= MTU || prepared_servers.empty())
 		{
-			response.push_back('\\');
-			response.append("EOT");
-			response.push_back('\0');
-			response.push_back('\0');
-			response.push_back('\0');
+			// Only send EOT if this is actually the last server
+			if (prepared_servers.empty())
+			{
+				response.push_back('\\');
+				response.append("EOT");
+				response.push_back('\0');
+				response.push_back('\0');
+				response.push_back('\0');
+			}
 
 			this->get_server().send(target, "getserversResponse", response);
 			packet_count++;
