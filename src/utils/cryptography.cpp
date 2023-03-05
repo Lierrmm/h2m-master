@@ -279,7 +279,7 @@ namespace utils::cryptography
 
 	std::string ecc::sign_message(const key& key, const std::string& message)
 	{
-		if (!key.is_valid()) return "";
+		if (!key.is_valid()) return {};
 
 		uint8_t buffer[512];
 		unsigned long length = sizeof(buffer);
@@ -445,7 +445,7 @@ namespace utils::cryptography
 		std::string hash(cs(buffer), sizeof(buffer));
 		if (!hex) return hash;
 
-		return string::dump_hex(hash, "");
+		return string::dump_hex(hash, {});
 	}
 
 	std::string aes::encrypt(const std::string& data, const std::string& iv, const std::string& key)
@@ -517,7 +517,7 @@ namespace utils::cryptography
 		std::string hash(cs(buffer), sizeof(buffer));
 		if (!hex) return hash;
 
-		return string::dump_hex(hash, "");
+		return string::dump_hex(hash, {});
 	}
 
 	std::string sha256::compute(const std::string& data, const bool hex)
@@ -537,7 +537,7 @@ namespace utils::cryptography
 		std::string hash(cs(buffer), sizeof(buffer));
 		if (!hex) return hash;
 
-		return string::dump_hex(hash, "");
+		return string::dump_hex(hash, {});
 	}
 
 	std::string sha512::compute(const std::string& data, const bool hex)
@@ -557,7 +557,7 @@ namespace utils::cryptography
 		std::string hash(cs(buffer), sizeof(buffer));
 		if (!hex) return hash;
 
-		return string::dump_hex(hash, "");
+		return string::dump_hex(hash, {});
 	}
 
 	std::string base64::encode(const uint8_t* data, const size_t len)
@@ -627,7 +627,7 @@ namespace utils::cryptography
 		std::string result;
 		result.resize(sizeof(uint32_t));
 		random::get_data(result.data(), result.size());
-		return string::dump_hex(result, "");
+		return string::dump_hex(result, {});
 	}
 
 	void random::get_data(void* data, const size_t size)
