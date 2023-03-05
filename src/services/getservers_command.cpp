@@ -21,7 +21,6 @@ constexpr auto DPM_PROTOCOL_PORT_LENGTH = sizeof prepared_server::port;
 static_assert(DPM_PROTOCOL_ADDRESS_LENGTH == 4);
 static_assert(DPM_PROTOCOL_PORT_LENGTH == 2);
 
-
 const char* getservers_command::get_command() const
 {
 	return "getservers";
@@ -76,7 +75,7 @@ void getservers_command::handle_command(const network::address& target, const st
 
 		if (response.size() >= MTU || prepared_servers.empty())
 		{
-			// Only send EOT if this is actually the last server
+			// Only send EOT if the queue is empty (last packet)
 			if (prepared_servers.empty())
 			{
 				response.push_back('\\');

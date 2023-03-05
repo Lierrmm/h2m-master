@@ -19,7 +19,7 @@ public:
 	kill_list(server& server);
 
 	bool contains(const network::address& address, std::string& reason);
-	void add_to_kill_list(kill_list_entry add);
+	void add_to_kill_list(const kill_list_entry& add);
 	void remove_from_kill_list(const network::address& remove);
 	void remove_from_kill_list(const std::string& remove);
 

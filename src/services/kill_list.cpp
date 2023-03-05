@@ -12,22 +12,21 @@ kill_list::kill_list_entry::kill_list_entry(std::string ip_address, std::string 
 
 bool kill_list::contains(const network::address& address, std::string& reason)
 {
-	std::string str_address = address.to_string(false);
+	auto str_address = address.to_string(false);
 
 	return this->entries_container_.access<bool>([&str_address, &reason](const kill_list_entries& entries)
+	{
+		if (const auto itr = entries.find(str_address); itr != entries.end())
 		{
-			if (entries.find(str_address) != entries.end())
-			{
-				auto& entry = entries.at(str_address);
-				reason = entry.reason_;
-				return true;
-			}
+			reason = itr->second.reason_;
+			return true;
+		}
 
-			return false;
-		});
+		return false;
+	});
 }
 
-void kill_list::add_to_kill_list(kill_list_entry add)
+void kill_list::add_to_kill_list(const kill_list_entry& add)
 {
 	const auto any_change = this->entries_container_.access<bool>([&add](kill_list_entries& entries)
 	{
@@ -35,7 +34,7 @@ void kill_list::add_to_kill_list(kill_list_entry add)
 		if (existing_entry == entries.end() || existing_entry->second.reason_ != add.reason_)
 		{
 			console::info("Added %s to kill list (reason: %s)", add.ip_address_.data(), add.reason_.data());
-			entries[add.ip_address_] = std::move(add);
+			entries[add.ip_address_] = add;
 			return true;
 		}
 
@@ -83,7 +82,7 @@ void kill_list::reload_from_disk()
 	std::string contents;
 	if (!utils::io::read_file(kill_file, &contents))
 	{
-		console::info("Could not find %s, no kill list will be loaded.", kill_file);
+		console::info("Could not find %s, kill list will not be loaded.", kill_file);
 		return;
 	}
 
@@ -105,7 +104,7 @@ void kill_list::reload_from_disk()
 			std::string comment;
 
 			const auto index = line.find(' ');
-			if (line.find(' ') != std::string::npos)
+			if (index != std::string::npos)
 			{
 				ip = line.substr(0, index);
 				comment = line.substr(index + 1);
@@ -135,18 +134,15 @@ void kill_list::reload_from_disk()
 
 void kill_list::write_to_disk()
 {
-	utils::io::remove_file(kill_file);
-
 	std::ostringstream stream;
 	this->entries_container_.access([&stream](const kill_list_entries& entries)
 	{
-		for (const auto& kv : entries)
+		for (const auto& [ip, entry] : entries)
 		{
-			auto& entry = kv.second;
 			stream << entry.ip_address_ << " " << entry.reason_ << "\n";
 		}
 
-		utils::io::write_file(kill_file, stream.str());
+		utils::io::write_file(kill_file, stream.str(), false);
 		console::info("Wrote %s to disk (%zu entries)", kill_file, entries.size());
 	});
 }
