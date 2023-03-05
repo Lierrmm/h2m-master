@@ -16,7 +16,7 @@ namespace
 		for (const auto& game_servers : servers)
 		{
 			const auto server_count = static_cast<uint32_t>(game_servers.second.size());
-			const auto player_count = static_cast<uint32_t>(players[game_servers.first]);
+			const auto player_count = players[game_servers.first];
 
 			rapidjson::Value game{};
 			game.SetObject();
@@ -70,7 +70,6 @@ void statistics_handler::run_frame()
 	});
 
 	console::lock _{};
-	console::log("");
 
 	for (const auto& game_servers : servers)
 	{
@@ -81,8 +80,6 @@ void statistics_handler::run_frame()
 		{
 			console::log("\t%s\t%s", server.second.to_string().data(), server.first.data());
 		}
-
-		console::log("");
 	}
 
 	write_stats(servers, players);
