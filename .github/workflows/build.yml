@@ -33,7 +33,7 @@ jobs:
             platform: x64
     steps:
       - name: Check out files
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.5.2
         with:
           submodules: true
           fetch-depth: 0
@@ -60,7 +60,7 @@ jobs:
             build/bin/${{matrix.arch}}/${{matrix.configuration}}/xlabs-master.exe
             build/bin/${{matrix.arch}}/${{matrix.configuration}}/xlabs-master.pdb
 
-  build-lin:
+  build-linux:
     name: Build Linux
     runs-on: ubuntu-20.04
     strategy:
@@ -79,7 +79,7 @@ jobs:
             config: release
     steps:
       - name: Check out files
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.5.2
         with:
           submodules: true
           fetch-depth: 0
@@ -119,7 +119,7 @@ jobs:
 
   build-mac:
     name: Build macOS
-    runs-on: macos-12
+    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
@@ -140,7 +140,7 @@ jobs:
             platform: arm64
     steps:
       - name: Check out files
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.5.2
         with:
           submodules: true
           fetch-depth: 0
@@ -177,7 +177,7 @@ jobs:
           name: Linux Release x64 binaries
 
       - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2.5.0
+        uses: shimataro/ssh-key-action@v2.5.1
         with:
           key: ${{ secrets.XLABS_MASTER_SSH_PRIVATE_KEY }}
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'

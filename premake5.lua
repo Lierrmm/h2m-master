@@ -65,8 +65,6 @@ filter {}
 
 filter {"system:windows"}
 	systemversion "latest"
-filter {"system:macosx"}
-	systemversion "12.0"
 filter {}
 
 symbols "On"
