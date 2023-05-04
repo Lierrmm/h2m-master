@@ -167,7 +167,7 @@ jobs:
 
   deploy:
     name: Deploy artifacts
-    needs: [build-win, build-lin, build-mac]
+    needs: [build-win, build-linux, build-mac]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && (github.ref == 'refs/heads/master')
     steps:    
