@@ -1,6 +1,8 @@
 #include <std_include.hpp>
 #include "elimination_handler.hpp"
 
+constexpr auto T7_PROTOCOL = 7;
+
 void elimination_handler::run_frame()
 {
 	auto now = std::chrono::high_resolution_clock::now();
@@ -11,6 +13,11 @@ void elimination_handler::run_frame()
 
 		if ((server.state == game_server::state::pinged && diff > 2min) ||
 			(server.state == game_server::state::can_ping && diff > 15min))
+		{
+			context.remove();
+		}
+
+		if (server.game == game_type::t7 && server.protocol < T7_PROTOCOL)
 		{
 			context.remove();
 		}

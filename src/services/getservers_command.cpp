@@ -55,12 +55,12 @@ void getservers_command::handle_command(const network::address& target, const st
 	this->get_server().get_server_list() //
 		.find_registered_servers(game_type, protocol,
 			[&prepared_servers](const game_server&, const network::address& address)
-			{
-				const auto addr = address.get_in_addr().sin_addr.s_addr;
-				const auto port = htons(address.get_port());
+		{
+			const auto addr = address.get_in_addr().sin_addr.s_addr;
+			const auto port = htons(address.get_port());
 
-				prepared_servers.push({ addr, port });
-			});
+			prepared_servers.push({ addr, port });
+		});
 
 	size_t packet_count = 0;
 	std::string response{};

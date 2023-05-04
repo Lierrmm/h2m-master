@@ -13,7 +13,7 @@ void info_response_command::handle_command(const network::address& target, const
 	const auto found = this->get_server().get_server_list().find(
 		target, [&data](game_server& server, const network::address& address)
 		{
-			utils::info_string info(data);
+			utils::info_string info{data};
 			const auto game = info.get("gamename");
 			const auto challenge = info.get("challenge");
 
@@ -35,16 +35,16 @@ void info_response_command::handle_command(const network::address& target, const
 				throw execution_exception{"Invalid challenge"};
 			}
 
-			const auto player_count = atoi(info.get("clients").data());
-			const auto bot_count = atoi(info.get("bots").data());
+			const auto player_count = strtoul(info.get("clients").data(), nullptr, 10);
+			const auto bot_count = strtoul(info.get("bots").data(), nullptr, 10);
 			auto real_player_count = player_count - bot_count;
-			real_player_count = std::clamp(real_player_count, 0, 18);
+			real_player_count = std::min<uint32_t>(real_player_count, 18);
 
 			server.registered = true;
 			server.game = game_type;
 			server.state = game_server::state::can_ping;
-			server.protocol = atoi(info.get("protocol").data());
-			server.clients = static_cast<uint32_t>(real_player_count);
+			server.protocol = strtol(info.get("protocol").data(), nullptr, 10);
+			server.clients = real_player_count;
 			server.name = info.get("hostname");
 			server.heartbeat = std::chrono::high_resolution_clock::now();
 			server.info_string = std::move(info);
