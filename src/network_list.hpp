@@ -154,13 +154,13 @@ private:
 
 		const auto target_ip = address.get_in_addr().sin_addr.s_addr;
 
-		size_t occurances = 0;
+		size_t occurrences = 0;
 		for (const auto& entry : list)
 		{
 			const auto entry_ip = entry.first.get_in_addr().sin_addr.s_addr;
 			if (entry_ip == target_ip)
 			{
-				if (++occurances >= IPLimit)
+				if (++occurrences >= IPLimit)
 				{
 					return false;
 				}
