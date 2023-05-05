@@ -1,4 +1,5 @@
 #include <std_include.hpp>
+#include <random>
 
 #include "string.hpp"
 #include "cryptography.hpp"
@@ -113,11 +114,18 @@ namespace utils::cryptography
 
 				int i[4]; // uninitialized data
 				auto* i_ptr = &i;
-				this->add_entropy(reinterpret_cast<uint8_t*>(&i), sizeof(i));
-				this->add_entropy(reinterpret_cast<uint8_t*>(&i_ptr), sizeof(i_ptr));
+				this->add_entropy(&i, sizeof(i));
+				this->add_entropy(&i_ptr, sizeof(i_ptr));
 
-				auto t = time(nullptr);
-				this->add_entropy(reinterpret_cast<uint8_t*>(&t), sizeof(t));
+				auto t = std::time(nullptr);
+				this->add_entropy(&t, sizeof(t));
+
+				std::random_device rd{};
+				for (auto j = 0; j < 4; ++j)
+				{
+					const auto x = rd();
+					this->add_entropy(&x, sizeof(x));
+				}
 			}
 		};
 
@@ -229,7 +237,7 @@ namespace utils::cryptography
 			return std::string(cs(buffer), length);
 		}
 
-		return "";
+		return {};
 	}
 
 	void ecc::key::free()
@@ -284,7 +292,9 @@ namespace utils::cryptography
 		uint8_t buffer[512];
 		unsigned long length = sizeof(buffer);
 
-		ecc_sign_hash(cs(message.data()), ul(message.size()), buffer, &length, prng_.get_state(), prng_.get_id(),
+		const auto hash = sha512::compute(message);
+
+		ecc_sign_hash(cs(hash.data()), ul(hash.size()), buffer, &length, prng_.get_state(), prng_.get_id(),
 		              &key.get());
 
 		return std::string(cs(buffer), length);
@@ -294,11 +304,13 @@ namespace utils::cryptography
 	{
 		if (!key.is_valid()) return false;
 
+		const auto hash = sha512::compute(message);
+
 		auto result = 0;
 		return (ecc_verify_hash(cs(signature.data()),
 		                        ul(signature.size()),
-		                        cs(message.data()),
-		                        ul(message.size()), &result,
+		                        cs(hash.data()),
+		                        ul(hash.size()), &result,
 		                        &key.get()) == CRYPT_OK && result != 0);
 	}
 
