@@ -3,7 +3,7 @@
 #include "client.hpp"
 #include "network_list.hpp"
 
-class client_list : public network_list<client>
+class client_list : public network_list<client, 0>
 {
 public:
 	bool find_client(uint64_t guid, const access_func& accessor);
