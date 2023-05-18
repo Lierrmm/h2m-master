@@ -23,12 +23,20 @@ void elimination_handler::run_frame()
 
 		if (server.game == game_type::t7 && server.protocol < T7_PROTOCOL)
 		{
+#ifdef _DEBUG
+			console::info("Removing T7 server '%s' because protocol %i is less than %i\n",
+			              context.get_address().to_string().data(), server.protocol, T7_PROTOCOL);
+#endif
 			context.remove();
 		}
 
 		++server_count[server.game][context.get_address()];
 		if (server_count[server.game][context.get_address()] >= MAX_SERVERS_PER_GAME)
 		{
+#ifdef _DEBUG
+			console::info("Removing server '%s' because it exceeds MAX_SERVERS_PER_GAME\n",
+			              context.get_address().to_string().data());
+#endif
 			context.remove();
 		}
 	});
