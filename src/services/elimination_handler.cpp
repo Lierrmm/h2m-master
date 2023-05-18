@@ -21,6 +21,11 @@ void elimination_handler::run_frame()
 			context.remove();
 		}
 
+		if (server.game == game_type::unknown)
+		{
+			return;
+		}
+
 		if (server.game == game_type::t7 && server.protocol < T7_PROTOCOL)
 		{
 #ifdef _DEBUG
