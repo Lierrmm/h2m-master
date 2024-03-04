@@ -1,7 +1,7 @@
 #include <std_include.hpp>
 #include "elimination_handler.hpp"
 
-constexpr auto T7_PROTOCOL = 7;
+constexpr auto H2_PROTOCOL = 2;
 
 constexpr size_t MAX_SERVERS_PER_GAME = 15;
 
@@ -26,11 +26,11 @@ void elimination_handler::run_frame()
 			return;
 		}
 
-		if (server.game == game_type::t7 && server.protocol < T7_PROTOCOL)
+		if (server.game == game_type::h2 && server.protocol < H2_PROTOCOL)
 		{
 #ifdef _DEBUG
-			console::info("Removing T7 server '%s' because protocol %i is less than %i\n",
-			              context.get_address().to_string().data(), server.protocol, T7_PROTOCOL);
+			console::info("Removing H2 server '%s' because protocol %i is less than %i\n",
+			              context.get_address().to_string().data(), server.protocol, H2_PROTOCOL);
 #endif
 			context.remove();
 		}

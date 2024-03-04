@@ -11,7 +11,6 @@
 #include "services/ping_handler.hpp"
 #include "services/elimination_handler.hpp"
 #include "services/statistics_handler.hpp"
-#include "services/patreon_handler.hpp"
 #include "services/kill_list.hpp"
 
 server::server(const network::address& bind_addr)
@@ -25,7 +24,6 @@ server::server(const network::address& bind_addr)
 	this->register_service<ping_handler>();
 	this->register_service<elimination_handler>();
 	this->register_service<statistics_handler>();
-	this->register_service<patreon_handler>();
 	this->register_service<kill_list>();
 }
 

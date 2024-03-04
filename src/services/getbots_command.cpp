@@ -1,6 +1,5 @@
 #include <std_include.hpp>
 #include "getbots_command.hpp"
-#include "patreon_handler.hpp"
 
 #include "../console.hpp"
 
@@ -42,14 +41,6 @@ void getbots_command::handle_command(const network::address& target, const std::
 	{
 		stream << bot << std::endl;
 	}
-
-	this->get_server().get_service<patreon_handler>()->access_patrons([&stream](const patreon::patron_list& patrons)
-	{
-		for (const auto& patron : patrons)
-		{
-			stream << patron << std::endl;
-		}
-	});
 
 	this->get_server().send(target, "getbotsResponse", stream.str());
 	console::log("Sent bot names: %s", target.to_string().data());

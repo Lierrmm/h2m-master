@@ -30,8 +30,8 @@ namespace
 
 int main(const int argc, const char** argv)
 {
-	console::set_title("X Labs Master");
-	console::log("Starting X Labs Master");
+	console::set_title("H2M-Mod Master");
+	console::log("Starting H2M-Mod Master");
 
 	try
 	{

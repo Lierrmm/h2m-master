@@ -30,8 +30,8 @@ end
 
 dependencies.load()
 
-workspace "xlabs-master"
-startproject "xlabs-master"
+workspace "h2m-master"
+startproject "h2m-master"
 location "./build"
 objdir "%{wks.location}/obj"
 targetdir "%{wks.location}/bin/%{cfg.platform}/%{cfg.buildcfg}"
@@ -99,7 +99,7 @@ filter "configurations:Debug"
 	defines {"DEBUG", "_DEBUG"}
 filter {}
 
-project "xlabs-master"
+project "h2m-master"
 kind "ConsoleApp"
 language "C++"
 
