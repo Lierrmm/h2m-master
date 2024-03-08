@@ -121,7 +121,7 @@ jobs:
     name: Deploy artifacts
     needs: [build-win, build-linux]
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/master')
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main')
     steps:    
       - name: Download master server binary
         uses: actions/download-artifact@v3.0.2
