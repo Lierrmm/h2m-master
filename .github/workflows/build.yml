@@ -145,7 +145,7 @@ jobs:
       - name: Install dependencies (aarch64)
         if: matrix.arch == 'aarch64'
         run: |
-          sudo dpkg --add-architecture aarch64
+          sudo dpkg --add-architecture arm64
           sudo apt-get update
           sudo apt-get -y install gcc-multilib g++-multilib libcurl4-gnutls-dev
 
