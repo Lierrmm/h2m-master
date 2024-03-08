@@ -159,7 +159,7 @@ jobs:
         if: matrix.arch == 'aarch64'
         run: |
           pushd build
-          ../tools/mold -run make config=${{matrix.config}}_arm64 -j$(nproc)
+          make config=${{matrix.config}}_arm64 -j$(nproc)
 
       - name: Upload ${{matrix.configuration}} ARM64 binaries
         if: matrix.arch == 'aarch64'
