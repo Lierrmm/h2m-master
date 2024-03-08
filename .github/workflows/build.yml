@@ -138,11 +138,11 @@ jobs:
         with:
           name: Linux ${{matrix.configuration}} ARM64 binaries
           path: |
-            build/bin/ARM64/${{matrix.configuration}}/h2m-master
+            build/bin/arm64/${{matrix.configuration}}/h2m-master
   
   deploy:
     name: Deploy artifacts
-    needs: [build-win, build-linux]
+    needs: [build-linux]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main')
     steps:    
