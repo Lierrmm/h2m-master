@@ -112,7 +112,14 @@ jobs:
       - name: Set up problem matching
         uses: ammaraskar/gcc-problem-matcher@master
 
+      - name: Build ${{matrix.configuration}} ARM64 binaries
+        if: matrix.arch == 'aarch64'
+        run: |
+          pushd build
+          ../tools/mold -run make config=${{matrix.config}}_arm64 -j$(nproc)
+
       - name: Build ${{matrix.configuration}} ${{matrix.arch}} binaries
+        if: matrix.arch == 'x86' || matrix.arch == 'x64'
         run: |
           pushd build
           ../tools/mold -run make config=${{matrix.config}}_${{matrix.arch}} -j$(nproc)
