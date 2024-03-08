@@ -51,7 +51,7 @@ filter "platforms:x64"
 architecture "x86_64"
 
 filter "platforms:arm64"
-architecture "ARM64"
+architecture "arm64"
 
 filter {"language:C++", "toolset:not msc*"}
 	buildoptions {
