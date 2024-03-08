@@ -140,5 +140,5 @@ jobs:
       - name: Upload master server binary
         run: rsync -avz h2m-master ${{ secrets.H2M_MASTER_SSH_USER }}@${{ secrets.H2M_MASTER_SSH_ADDRESS }}:${{ secrets.H2M_MASTER_SSH_PATH_MASTER_SERVER }}/
 
-      # - name: Restart master server
-      #   run: ssh ${{ secrets.H2M_MASTER_SSH_USER }}@${{ secrets.H2M_MASTER_SSH_ADDRESS }} ${{ secrets.H2M_MASTER_SSH_RESTART_MASTER_SERVER }}
+      - name: Restart master server
+        run: ssh ${{ secrets.H2M_MASTER_SSH_USER }}@${{ secrets.H2M_MASTER_SSH_ADDRESS }} ${{ secrets.H2M_MASTER_SSH_RESTART_MASTER_SERVER }}
