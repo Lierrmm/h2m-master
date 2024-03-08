@@ -72,6 +72,7 @@ jobs:
         arch:
           - x86
           - x64
+          - aarch64
         include:
           - configuration: Debug
             config: debug
@@ -88,6 +89,12 @@ jobs:
 
       - name: Install dependencies (x64)
         if: matrix.arch == 'x64'
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install libcurl4-gnutls-dev
+
+      - name: Install dependencies (aarch64)
+        if: matrix.arch == 'aarch64'
         run: |
           sudo apt-get update
           sudo apt-get -y install libcurl4-gnutls-dev
@@ -126,7 +133,7 @@ jobs:
       - name: Download master server binary
         uses: actions/download-artifact@v3.0.2
         with:
-          name: Linux Release x64 binaries
+          name: Linux Release aarch64 binaries
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2.5.1
