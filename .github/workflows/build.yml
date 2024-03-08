@@ -98,7 +98,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture aarch64
           sudo apt-get update
-          sudo apt-get -y install gcc-multilib g++-multilib libcurl4-gnutls-dev:arm64
+          sudo apt-get -y install gcc-multilib g++-multilib libcurl4-gnutls-dev
 
       - name: Install dependencies (x86)
         if: matrix.arch == 'x86'
