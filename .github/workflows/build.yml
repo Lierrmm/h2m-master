@@ -125,11 +125,20 @@ jobs:
           ../tools/mold -run make config=${{matrix.config}}_${{matrix.arch}} -j$(nproc)
 
       - name: Upload ${{matrix.configuration}} ${{matrix.arch}} binaries
+        if: matrix.arch == 'x86' || matrix.arch == 'x64'
         uses: actions/upload-artifact@v3.1.2
         with:
           name: Linux ${{matrix.configuration}} ${{matrix.arch}} binaries
           path: |
             build/bin/${{matrix.arch}}/${{matrix.configuration}}/h2m-master
+
+      - name: Upload ${{matrix.configuration}} ARM64 binaries
+        if: matrix.arch == 'aarch64'
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: Linux ${{matrix.configuration}} ARM64 binaries
+          path: |
+            build/bin/ARM64/${{matrix.configuration}}/h2m-master
   
   deploy:
     name: Deploy artifacts
@@ -140,7 +149,7 @@ jobs:
       - name: Download master server binary
         uses: actions/download-artifact@v3.0.2
         with:
-          name: Linux Release aarch64 binaries
+          name: Linux Release ARM64 binaries
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2.5.1
