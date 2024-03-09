@@ -37,7 +37,7 @@ namespace
 		root.Accept(root_writer);
 
 		std::string root_data(root_buffer.GetString(), root_buffer.GetLength());
-		utils::io::write_file("/var/www/html/stats.json", root_data);
+		utils::io::write_file("/var/www/master.h2m-mod.dev/html/stats.json", root_data);
 	}
 }
 
