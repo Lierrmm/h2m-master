@@ -58,7 +58,7 @@ namespace crypto_key
 		utils::cryptography::ecc::key get_key_internal()
 		{
 			auto key = load_or_generate_key();
-			if (!utils::io::write_file("./public.key", key.get_public_key()))
+			if (!utils::io::write_file("./mydata/public.key", key.get_public_key()))
 			{
 				console::error("Failed to write public key!");
 			}
